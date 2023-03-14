@@ -1,2 +1,18 @@
 #!/bin/bash
-printf "%o\n" $((  $((5#(echo $WATER | tr water 01234))) + $((5#(echo $STIR | tr stir. 012345))) ))  | tr 01234567 bestchol
+
+# get the values of the WATER and STIR environment variables
+water="$WATER"
+stir="$STIR"
+
+# convert values to base 10 using bc
+water_dec=$(echo "ibase=$base_water; $water" | bc)
+stir_dec=$(echo "ibase=$base_stir; $stir" | bc)
+
+# add the values in base 10 using bc
+sum_dec=$(echo "$water_dec + $stir_dec" | bc)
+
+# convert the sum to base bestchol using bc
+sum_bestchol=$(echo "obase=$base_bestchol; $sum_dec" | bc)
+
+# print the sum
+echo "$sum_bestchol"
